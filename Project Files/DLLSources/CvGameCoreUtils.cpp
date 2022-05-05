@@ -2564,3 +2564,18 @@ CvWString getStrategyString(StrategyTypes eStrategy)
 
 	return szString;
 }
+
+bool generatePathForHypotheticalUnit(const CvPlot* pFrom, const CvPlot* pTo, PlayerTypes ePlayer, UnitTypes eUnit, int iFlags, int iMaxTurns)
+{
+	PROFILE_FUNC();
+
+	CvUnit* pTempUnit = GET_PLAYER(ePlayer).getTempUnit(eUnit, pFrom->getX(), pFrom->getY());
+
+	pTempUnit->finishMoves();
+
+	const bool bResult = pTempUnit->generatePath(pTo, iFlags, iMaxTurns);
+
+	GET_PLAYER(ePlayer).releaseTempUnit();
+
+	return bResult;
+}
