@@ -319,6 +319,7 @@ void CvCity::init(int iID, PlayerTypes eOwner, int iX, int iY, bool bBumpUnits)
 	
 	GET_PLAYER(getOwnerINLINE()).AI_invalidateDistanceMap();
 	AI_init();
+	m_iSlaveWorkerProductionBonus = 0;
 }
 
 
@@ -14099,15 +14100,23 @@ int CvCity::getSlaveRevoltReductionBonus() const
 // increased Production of Slave workers
 int CvCity::getSlaveWorkerProductionBonus() const
 {
+	return m_iSlaveWorkerProductionBonus;
+}
+//WTP, ray, Slave Hunter and Slave Master - END
+
+// iBonus is set when a unit is about to enter the city since the unit will not be
+// in the city plot yet
+void CvCity::updateSlaveWorkerProductionBonus(int iBonus)
+{
 	if (isNative())
 	{
-		return 0;
+		return;
 	}
 
-	int iSlaveWorkerProductionBonus = 0;
-	int iMaxSlaveWorkerProductionBonusPerCity = GC.getMAX_SLAVE_WORKER_PRODUCTION_BONUS_PER_CITY(); 
-	
-	std::vector<CvUnit*> aUnits;
+	int iSlaveWorkerProductionBonus = iBonus;
+	int iMaxSlaveWorkerProductionBonusPerCity = GC.getMAX_SLAVE_WORKER_PRODUCTION_BONUS_PER_CITY();
+
+	//std::vector<CvUnit*> aUnits;
 	CLLNode<IDInfo>* pUnitNode = plot()->headUnitNode();
 	while (pUnitNode)
 	{
@@ -14119,13 +14128,13 @@ int CvCity::getSlaveWorkerProductionBonus() const
 			iSlaveWorkerProductionBonus += pLoopUnit->getSlaveWorkerProductionBonus();
 		}
 	}
-	
+
 	if (iSlaveWorkerProductionBonus > iMaxSlaveWorkerProductionBonusPerCity)
 	{
 		iSlaveWorkerProductionBonus = iMaxSlaveWorkerProductionBonusPerCity;
 	}
 
-	return iSlaveWorkerProductionBonus;
+	m_iSlaveWorkerProductionBonus = iSlaveWorkerProductionBonus;
 }
 //WTP, ray, Slave Hunter and Slave Master - END
 

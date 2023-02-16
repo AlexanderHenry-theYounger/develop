@@ -10570,6 +10570,12 @@ void CvUnit::setXY(int iX, int iY, bool bGroup, bool bUpdate, bool bShow, bool b
 
 		pOldCity = pOldPlot->getPlotCity();
 
+		// Update city caches if required when leaving the city
+		if (pOldCity != NULL && getSlaveWorkerProductionBonus() != 0)
+		{
+			pOldCity->updateSlaveWorkerProductionBonus();
+		}
+
 		pWorkingCity = pOldPlot->getWorkingCity();
 
 		if (pWorkingCity != NULL)
@@ -10649,9 +10655,14 @@ void CvUnit::setXY(int iX, int iY, bool bGroup, bool bUpdate, bool bShow, bool b
 					bool checkAcuqireNatives = doAcquireCheckNatives();
 					//Ende ray18
 					GET_PLAYER(eNewOwner).acquireCity(pNewCity, true, false); // will delete the pointer
-
-					pNewCity = NULL;
 				}
+			}
+			
+			const int iSlaveWorkerProductionBonus = getSlaveWorkerProductionBonus();
+			// Update city caches if required when entering a city
+			if (iSlaveWorkerProductionBonus != 0)
+			{
+				pNewCity->updateSlaveWorkerProductionBonus(iSlaveWorkerProductionBonus);
 			}
 		}
 

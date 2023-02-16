@@ -893,6 +893,8 @@ protected:
 	mutable EnumMap<YieldTypes,bool> m_em_bYieldRankValid;
 
 	bool m_bHasHurried; // Needed to remember (cache) if a hurry was conducted and we should complete the current build
+	int m_iSlaveWorkerProductionBonus;
+
 	void doGrowth();
 	void doYields();
 	void addTempHurryYieldsForProduction();
@@ -975,6 +977,7 @@ public:
 	int getSlaveRevoltReductionBonus() const;
 	int getSlaveWorkerProductionBonus() const;
 	//WTP, ray, Slave Hunter and Slave Master
+	void updateSlaveWorkerProductionBonus(int iBonus = 0);
 
 protected:
 	// traderoute popup arrays
