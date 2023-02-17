@@ -5132,7 +5132,7 @@ void CvCityAI::AI_assignDesiredYield()
 				{
 					if (isScoutVisited(kPlayer.getTeam()))
 					{
-						gDLL->getInterfaceIFace()->addMessage((PlayerTypes) iPlayer, false, GC.getEVENT_MESSAGE_TIME(), szMessage, "AS2D_POSITIVE_DINK", MESSAGE_TYPE_MINOR_EVENT, GC.getYieldInfo(eBestYield).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX_INLINE(), getY_INLINE(), true, true);
+						gDLL->UI().addPlayerMessage((PlayerTypes) iPlayer, false, GC.getEVENT_MESSAGE_TIME(), szMessage, "AS2D_POSITIVE_DINK", MESSAGE_TYPE_MINOR_EVENT, GC.getYieldInfo(eBestYield).getButton(), (ColorTypes)GC.getInfoTypeForString("COLOR_WHITE"), getX_INLINE(), getY_INLINE(), true, true);
 					}
 				}
 			}
