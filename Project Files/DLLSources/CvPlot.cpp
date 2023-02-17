@@ -8418,7 +8418,7 @@ void CvPlot::updateFlagSymbol()
 	}
 }
 
-
+// crash here with hypothetical unit since unit is null ?
 CvUnit* CvPlot::getCenterUnit() const
 {
 	return m_pCenterUnit;
@@ -8427,9 +8427,15 @@ CvUnit* CvPlot::getCenterUnit() const
 
 CvUnit* CvPlot::getDebugCenterUnit() const
 {
+	return NULL;
+
 	CvUnit* pCenterUnit;
 
 	pCenterUnit = getCenterUnit();
+
+	// can be null due to hypothetical unit ?
+	if (pCenterUnit == NULL)
+		return NULL;
 
 	if (pCenterUnit == NULL)
 	{

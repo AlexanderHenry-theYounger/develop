@@ -843,6 +843,37 @@ BuildingTypes CvCityAI::AI_bestBuilding(int iFocusFlags, int iMaxTurns, bool bAs
 /// <summary>Determine if there's a coastal route to another city. Both cities must be in different areas (cannot share continent/island)</summary>
 bool CvCityAI::AI_hasCoastalRoute() const
 {
+	const UnitTypes eCoastalShipUnitType = (UnitTypes)GC.getCivilizationInfo(getCivilizationType()).getCivilizationUnits(GC.getDefineINT("UNITCLASS_SMALL_COASTAL_SHIP"));
+	CvPlayerAI& kOwner = GET_PLAYER(getOwnerINLINE());
+	
+	CvUnit* pTempUnit = GET_PLAYER(getOwnerINLINE()).getTempUnit(eCoastalShipUnitType, plot()->getX(), plot()->getY());
+	pTempUnit->finishMoves();
+
+	int iLoop;
+	for (CvCity* pLoopCity = kOwner.firstCity(&iLoop); pLoopCity != NULL; pLoopCity = kOwner.nextCity(&iLoop))
+	{
+		if (pLoopCity != this)
+		{
+			// Determine if these cities share a common water area
+			if (waterArea() == pLoopCity->waterArea())
+			{
+				const bool bResult = pTempUnit->generatePath(pLoopCity->plot(), 0);
+
+				//if (generatePathForHypotheticalUnit(plot(), pLoopCity->plot(), getOwner(), eCoastalShipUnitType, 0, -1))
+				if (bResult)
+				{
+					// We found a valid path
+					GET_PLAYER(getOwnerINLINE()).releaseTempUnit();
+					return true;
+				}
+			}
+		}
+	}
+
+	GET_PLAYER(getOwnerINLINE()).releaseTempUnit();
+	return false;
+	
+#if 0
 	gDLL->getFAStarIFace()->ForceReset(&GC.getCoastalRouteFinder());
 
 	// Erik: determine if it makes sense to build a coastal transport
@@ -867,6 +898,7 @@ bool CvCityAI::AI_hasCoastalRoute() const
 	}
 
 	return false;
+#endif
 }
 
 

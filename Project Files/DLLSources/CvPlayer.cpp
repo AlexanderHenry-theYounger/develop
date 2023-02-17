@@ -24948,6 +24948,7 @@ void CvPlayer::onTurnLogging() const
 	}
 }
 
+// TODO: add CvPlot overload
 CvUnit* CvPlayer::getTempUnit(UnitTypes eUnit, int iX, int iY)
 {
 	if (m_pTempUnit == NULL)

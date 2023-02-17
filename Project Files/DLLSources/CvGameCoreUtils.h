@@ -346,6 +346,8 @@ CvWString getStrategyString(StrategyTypes eStrategy);
 bool shouldMoveBefore(const CvUnit* pUnitA, const CvUnit* pUnitB);
 bool shouldUnitMove(const CvUnit* pUnit);
 
+bool generatePathForHypotheticalUnit(const CvPlot* pFrom, const CvPlot* pTo, PlayerTypes ePlayer, UnitTypes eUnit, int iFlags, int iMaxTurns);
+
 class CvShouldMoveBefore
 {
 public:
